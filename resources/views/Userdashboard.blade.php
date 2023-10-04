@@ -15,6 +15,7 @@
                                     <x-input-label for="student_name" :value="__('Student-Name')" />
                                     <x-text-input id="student_name" class="block mt-1 w-full" type="text"
                                         name="student_name" :value="old('student_name')" required autofocus
+                                        placeholder="Student One , Student Two .....etc"
                                         autocomplete="student_name" />
                                     <x-input-error :messages="$errors->get('student_name')" class="mt-2" />
                                 </div>
@@ -61,16 +62,15 @@
                                 </div>
 
                                 <!-- content -->
-                                <div class="mt-4">
-                                    <div class="relative w-full min-w-[200px]">
+                                <div class="mt-4" >
+                                    <div class="relative w-full min-w-[200px]"  >
                                         <label for="message"
                                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Content</label>
-                                        <textarea id="content" rows="4" name="content"
+                                        <textarea  name="content" id="content" style="text-align: justify;"
                                             class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                             placeholder="Your content..."></textarea>
                                     </div><x-input-error :messages="$errors->get('content')" class="mt-2" />
                                 </div>
-
                                 <!-- Refrence -->
                                   <div class="mt-4">
                                     <div class="relative w-full min-w-[200px]">
@@ -227,18 +227,9 @@
 
     @role('super-admin')
         <x-slot name="header">
-            <div class=" flex justify-between">
-                <div class="">
                     <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                         {{ __('Dashboard') }}
                     </h2>
-
-                </div>
-                <div class=" space-x-4">
-                    <i class="fa-solid fa-filter text-2xl"></i>
-                    <i class="fa-solid fa-magnifying-glass text-2xl"></i>
-                </div>
-            </div>
         </x-slot>
         <div class=" grid grid-cols-12">
             <div class=" col-span-2">

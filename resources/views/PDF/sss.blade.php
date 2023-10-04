@@ -95,8 +95,53 @@
 
     <div class="section">
         <h2>Conclusion</h2>
-        <p>
-            Summarize the key points and conclusions of the research.
+        <p style="  text-align: justify;
+            text-justify: inter-word;">
+            Summarize the key points and conclusions of the research.r
+
+            errhte
+            h
+            erh
+            erh
+            er
+            tre
+            terrh
+            trh
+            teh
+            erh
+            erh
+            erh
+            erh
+
+            her
+            er
+            her
+            er
+            y
+
+            ythththththjtjtrjtr
+            tj
+            trjtr
+            jtrthrehr
+            errere
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illum suscipit non aspernatur odio voluptatibus temporibus quisquam reiciendis, dolore, fug
+            it laboriosam a, commodi officia numquam ipsa? Blanditiis cum maxime soluta eveniet?
+            Lorem ipsum, dolor sit amet consectetur a
+            dipisicing elit. Illum suscipit non aspernatur odio voluptatibus temporibus quisquam reiciendis, dolore, fugit laboriosam a, commodi officia numquam ipsa? Blanditiis cum maxime soluta eveniet?
+            Lor
+            em ipsum, dolor sit amet consectetur adipisicing elit. Illum suscipit non aspernatur odio voluptatibus temporibus quisquam reiciendis, dolore, fugit laboriosam a, commodi officia numquam ipsa? Blanditiis cum maxime soluta eveniet?
+            Lorem ipsum, dolor sit
+            amet consectetur adipisicing elit. Illum suscipit non aspernatur odio voluptatibus temporibus quisquam reiciendis, dolore, fugit laboriosam a, commodi officia numquam ipsa? Blanditiis cum maxime soluta eveniet?
+            Lorem ipsum, dolor sit amet consectetur a
+            dipisicing elit. Illum suscipit non aspernatur odio voluptatibus
+             temporibus quisquam reiciendis, dolore, fugit laboriosam a, commodi officia
+              numquam ipsa? Blanditiis cum maxime soluta eveniet?
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illum suscipit non aspernatur odio voluptatibus temporibus quisquam reiciendis, dolore, fugit laboriosam a, commodi officia numquam ipsa? Blanditiis cum maxime soluta eveniet?
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illum suscipit non aspernatur odio voluptatibus temporibus quisquam reiciendis, dolore, fugit laboriosam a, commodi officia numquam ipsa? Blandi
+            tiis cum maxime soluta eveniet?
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illum suscipit non
+             aspernatur odio voluptatibus temporibus quisquam reiciendis, dolore, fugit laboriosam a, commodi officia numquam ipsa? Blanditiis cum maxime soluta eveniet?
+
         </p>
     </div>
 

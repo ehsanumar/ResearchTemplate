@@ -1,5 +1,5 @@
 <?php
-$refrences = explode('#$', $research->refrence);
+$students = explode(",", $research->student_name);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -34,13 +34,16 @@ $refrences = explode('#$', $research->refrence);
         p {
             font-size: 12px;
             padding-left: 15px;
-            line-height: 1.6;
+            line-height: 2;
+            text-align: justify;
         }
+
+
+
     </style>
-    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 </head>
 
-<body style="  font-family: Arial, sans-serif; margin: 30px;">
+<body style="  font-family: Arial, sans-serif; margin: 30px;  ">
     <div style="">
         <img src="{{ public_path('image/logo1.png') }}" alt=""
             style="width: 100px; padding-right:5px; float:left;">
@@ -65,8 +68,12 @@ $refrences = explode('#$', $research->refrence);
             <div style="clear: both;"></div> <!-- Clear the floats -->
         </div>
         <div style="width: 100%; font-size: 19px;">
-            <div style="float: left; width: 50%;">1- {{ $research->student_name }} </div>
-            <div style="float: right; width: 50%; text-align: right; padding-right:63px;">1-
+            <div style="float: left; width: 50%;">
+            @foreach ($students as $student)
+{{ $loop->iteration }} - {{ $student }} <br>
+            @endforeach
+            </div>
+            <div style="float: right; width: 50%; text-align: right; padding-right:35px;">1-
                 MR. {{ $research->teacher->name }}
             </div>
             <div style="clear: both;"></div> <!-- Clear the floats -->
@@ -92,18 +99,21 @@ $refrences = explode('#$', $research->refrence);
         <p style="font-size: 12px; padding-left:15px; line-height: 1.6;">
         </p>
     </div> --}}
-    <div>
-        {!! $research->content !!}
+
+        <div >
+<p style="text-align: justify;">
+
+    {!! $research->content !!}
+</p>
+
     </div>
     <div style=" margin-bottom: 45px; font-size:14px; font-family: 'Times New Roman', Times, serif; padding: 0 50px">
         <h4 style="color:#5aaaec;">Refrence:</h4>
-        @foreach ($refrences as $refrence)
             <a style="font-size: 14px; padding-left:15px; line-height: 1.6; text-decoration: underline; color:#279EFF;">
                 {{-- {{ $loop->iteration }} -  --}}
-                {!! $refrence !!}
+                {!!$research->refrence !!}
             </a>
             <br>
-        @endforeach
     </div>
 
 
@@ -112,11 +122,11 @@ $refrences = explode('#$', $research->refrence);
     if (isset($pdf)) {
         $pdf->AddPage(); // Add a new page
         $font = $fontMetrics->get_font('Arial, sans-serif', 'normal');
-        $size = 10;
+        $size =2;
         $pdf->page_text(270, 770, 'Page: {PAGE_NUM}', $font, $size);
     }
     ?>
-    <div class="footer">
+    <div class="footer" style="margin-top: 20px;">
         <hr>
         Page <span class="page-number"></span>
     </div>

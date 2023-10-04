@@ -14,39 +14,35 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="https://kit.fontawesome.com/8ef4a8399d.js" crossorigin="anonymous"></script>
+
+
     {{-- tinyMCE ReachTexe --}}
-    <script src="https://cdn.tiny.cloud/1/ts2n2z1jjcpjehb6x88oyn1481w4soeo7jr8cgluhu59qlup/tinymce/5/tinymce.min.js"
-        referrerpolicy="origin"></script>
-<style>
-    .mce-toc {
-  border: 1px solid gray;
-}
-
-.mce-toc h2 {
-  margin: 4px;
-}
-
-.mce-toc li {
-  list-style-type: none;
-}
-</style>
+    {{-- <script src="https://cdn.tiny.cloud/1/ts2n2z1jjcpjehb6x88oyn1481w4soeo7jr8cgluhu59qlup/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script> --}}
+    <script src="{{ asset('tinymce/tinymce/tinymce.min.js') }}"></script>
     <script type="text/javascript">
         tinymce.init({
             selector: '#refrence',
             width: 575,
             height: 160,
+            branding: false,
             plugins: [
                 'link'
             ],
             menubar: 'insert format',
 
         });
-
         tinymce.init({
             selector: '#content',
             width: 575,
             height: 300,
-            plugins: 'image',
+            content_style: 'p { text-align: justify;}',
+            branding: false,
+            block_formats: '',
+            plugins: 'advlist autolink lists link image charmap pagebreak print preview  anchor searchreplace visualblocks code fullscreen insertdatetime media table paste code help wordcount',
+            toolbar: ' undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | ' +
+                'bullist numlist outdent indent | link image fullscreen  | print preview ' +
+                'forecolor backcolor emoticons | help  ',
+            menubar: 'favs file edit view insert format tools table help',
             image_title: true,
             /* enable automatic uploads of images represented by blob or data URIs*/
             automatic_uploads: true,
@@ -65,11 +61,11 @@
                 input.setAttribute('accept', 'image/*');
 
                 input.onchange = function() {
-                    var file= this.files[0];
+                    var file = this.files[0];
 
                     var reader = new FileReader();
                     reader.readAsDataURL(file);
-                    reader.onload= function ()  {
+                    reader.onload = function() {
                         var id = 'blobid' + (new Date()).getTime();
                         var blobCache = tinymce.activeEditor.editorUpload.blobCache;
                         var base64 = reader.result.split(',')[1];
@@ -83,46 +79,42 @@
                     };
                 };
 
-            input.click();
-        },
-
-        style_formats: [{
-                title: 'Heading',
-                block: 'h2'
-            },
-            {
-                title: 'Subheading',
-                block: 'h4'
-            },
-            {
-                title: 'Paragraph',
-                block: 'p'
+                input.click();
             },
 
-        ],
-        plugins: [
-            'advlist autolink link image lists toc charmap print preview hr anchor pagebreak',
-            'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime nonbreaking',
-            'table emoticons template paste help',
+            style_formats: [{
+                    title: 'Heading',
+                    block: 'h2'
+                },
+                {
+                    title: 'Subheading',
+                    block: 'h4'
+                },
+                {
+                    title: 'Paragraph',
+                    block: 'p'
+                },
+            ],
+            // table of content
+            setup: function(editor) {
+                // Listen for the 'change' event
+                editor.on('change', function(e) {
+                    // Get all paragraphs, h2 headings, and h4 headings in the content
+                    var elements = editor.dom.select('h2, h4');
 
-        ],
-        toolbar: 'toc |undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | ' +
-        'bullist numlist outdent indent | link image fullscreen | print preview ' +
-        'forecolor backcolor emoticons | help |tocbutton ',
-        menu: {
-            favs: {
-                title: 'My Favorites',
-                items: 'code visualaid | searchreplace | emoticons'
+                    // Loop through each element
+                    elements.forEach(function(element) {
+                        // Generate a new 'id' based on the updated content and set it on the element
+                        element.id = element.textContent.trim();
+                    });
+                });
             }
-        },
-        menubar: 'favs file edit view insert format tools table help',
+
+
+
 
 
         });
-
-
-
-
     </script>
 </head>
 
@@ -143,5 +135,7 @@
             {{ $slot }}
         </main>
     </div>
+
 </body>
+
 </html>

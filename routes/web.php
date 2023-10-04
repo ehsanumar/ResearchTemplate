@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\ResearchsController;
+use App\Http\Controllers\SortAndSearchController;
 use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\SuperAdminForStudentController;
 use App\Http\Controllers\SuperAdminForTeacherController;
@@ -34,10 +35,10 @@ Route::get('/dashboard', function () {
         })
         ->count();
     $teacherOfDepartment = User::where('department_id', auth()->user()->department_id)
-    ->whereHas('roles', function ($query) {
-        $query->where('name', 'teacher')->OrWhere('name', 'super-admin');
-    })
-    ->count();
+        ->whereHas('roles', function ($query) {
+            $query->where('name', 'teacher')->OrWhere('name', 'super-admin');
+        })
+        ->count();
     $researchOfDepartment = Researchs::where('department_id', auth()->user()->department_id)->count();
 
     return view('Userdashboard', [
@@ -58,11 +59,12 @@ Route::middleware('auth')->group(function () {
 //student Route
 Route::group(['middleware' => ['role:student', 'auth']], function () {
     Route::resource('research', ResearchsController::class);
-    Route::post('/upload-image' , function (Request $request) {
+    Route::post('/upload-image', function (Request $request) {
         // Handle the image upload and return the image URL
-        $uploadedFile = $request->file('file')->store('images','public');
+        $uploadedFile = $request->file('file')->store('images', 'public');
 
-        return response()->json(['location' =>"/storage/$uploadedFile " ]); });
+        return response()->json(['location' => "/storage/$uploadedFile "]);
+    });
 });
 //teacher routes
 Route::group(['middleware' => ['role:teacher|super-admin', 'auth']], function () {
@@ -70,19 +72,27 @@ Route::group(['middleware' => ['role:teacher|super-admin', 'auth']], function ()
     Route::get('/download-pdf/{id}', [TeacherController::class, 'DownloadPDF'])->name('downloadPdf');
 });
 Route::view('/download', 'PDF.sss');
-Route::view('/TOC', 'toc');
 // Super-admin Route
-Route::group(['middleware' => ['role:super-admin', 'auth'] , 'prefix' => 'super-admin'], function () {
+Route::group(['middleware' => ['role:super-admin', 'auth'], 'prefix' => 'super-admin'], function () {
     Route::resource('student', SuperAdminForStudentController::class);
     Route::resource('teacher', SuperAdminForTeacherController::class);
-    Route::get('researchs/department', function (){
+    Route::post('/sorting/student', [SortAndSearchController::class, 'SortStudent'])->name('sortStudent');
+    Route::post('/search/student', [SortAndSearchController::class, 'searchStudent'])->name('searchStudent');
+    Route::post('/sorting/teacher', [SortAndSearchController::class, 'SortTeacher'])->name('sortTeacher');
+    Route::post('/search/teacher', [SortAndSearchController::class, 'searchTeacher'])->name('searchTeacher');
+    Route::post('/sorting/research', [SortAndSearchController::class, 'SortResearch'])->name('sortResearch');
+    Route::post('/search/research', [SortAndSearchController::class, 'searchResearch'])->name('searchResearch');
+    Route::post('/filter/research', [SortAndSearchController::class, 'filter'])->name('filterResearch');
+    Route::get('researchs/department', function () {
+        $teacherRole = Role::where('name', 'teacher')->first();
         return view(
             'research-page-for-supatadmin',
-            ['Researchs' =>
-            Researchs::where('department_id', auth()->user()->department_id)
-                ->select('student_name', 'teacher_id', 'title', 'status', 'id')
-                ->latest()
-                ->get()]
+            [
+                'Researchs' =>
+                Researchs::where('department_id', auth()->user()->department_id)
+                    ->select('student_name', 'teacher_id', 'title', 'status', 'id')
+                    ->latest()
+                    ->get(),            ]
         );
     })->name('researchMyDepartment');
 });
