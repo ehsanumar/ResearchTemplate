@@ -45,7 +45,7 @@
           class="my-4 lg:my-0 lg:pl-2 lg:pr-1"
           data-te-nav-item-ref>
           <a
-            class="text-neutral-700 text-lg font-bold disabled:text-black/30 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
+            class="text-neutral-700 text-lg font-bold font disabled:text-black/30 hover:text-3xl dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
             aria-current="page"
             href="#"
             data-te-nav-link-ref
@@ -70,7 +70,7 @@
                             </x-dropdown-link>
                         </form>
 @else
-<a class="mr-4 hover:text-neutral-700" href="{{ route('register') }}">Register</a>
+<a class="mr-4 hover:text-neutral-700 " href="{{ route('register') }}">Register</a>
 <a class="hover:text-neutral-700" href="{{ route('login') }}">{{ __('Login') }}</a>
 @endauth
       </div>

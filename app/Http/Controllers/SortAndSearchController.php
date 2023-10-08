@@ -44,8 +44,9 @@ class SortAndSearchController extends Controller
             })
             ->where(function ($query) use ($request) {
                 $query->where('name', 'like', '%' . $request->search . '%')
-                    ->orWhere('email', 'like', '%' . $request->search . '%')
-                    ->orWhere('phone', 'like', '%' . $request->search . '%');
+                    // ->orWhere('email', 'like', '%' . $request->search . '%')
+                    // ->orWhere('phone', 'like', '%' . $request->search . '%')
+                    ;
             })
             ->select('name', 'email', 'phone', 'id')
             ->get();

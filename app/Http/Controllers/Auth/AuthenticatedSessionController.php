@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
-use App\Providers\RouteServiceProvider;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use App\Models\faculties;
 use Illuminate\View\View;
+use App\Models\Department;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
+use App\Providers\RouteServiceProvider;
+use App\Http\Requests\Auth\LoginRequest;
+use Laravel\Socialite\Facades\Socialite;
+
 
 class AuthenticatedSessionController extends Controller
 {
@@ -44,5 +49,38 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/');
+    }
+    // LoginController.php
+
+    //Oauth google Authintecate
+    public function redirectToGoogle()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function handleGoogleCallback()
+    {
+        $googleUser = Socialite::driver('google')->user();
+        $user = User::where('email', $googleUser->getEmail())->first();
+        try {
+            if (!$user) {
+                // User doesn't exist, create a new user
+                $newUser =User::create([
+                    'name' => $googleUser->name,
+                    'email' => $googleUser->email,
+                ])->assignRole('student');
+                Auth::login($newUser);
+                return view('requiredAdditionalInfo', [
+                    'departments' => Department::pluck('department', 'id'),
+                    'faculties' => faculties::pluck('faculty', 'id'),
+                ]);
+            } else {
+                Auth::login($user);
+                return redirect()->intended(RouteServiceProvider::HOME); // Redirect to a dashboard or home page
+
+            }
+        } catch (\Throwable $th) {
+            dd('Something went wrong ' . $th->getMessage());
+        }
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use PDF;
+use App\Models\User;
 use App\Models\Researchs;
 use Illuminate\Http\Request;
 
@@ -21,4 +22,5 @@ class TeacherController extends Controller
         $pdfGenerate= PDF::loadView('PDF.pdfgenerate',['research' => $FindResearch]);
         return $pdfGenerate->download('research_' . $id . '.pdf');
     }
+
 }

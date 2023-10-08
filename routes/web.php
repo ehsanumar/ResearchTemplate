@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\FacultiesController;
 use App\Models\User;
 use App\Models\Researchs;
 use App\Models\Department;
@@ -56,6 +59,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
 //student Route
 Route::group(['middleware' => ['role:student', 'auth']], function () {
     Route::resource('research', ResearchsController::class);
@@ -96,4 +100,16 @@ Route::group(['middleware' => ['role:super-admin', 'auth'], 'prefix' => 'super-a
         );
     })->name('researchMyDepartment');
 });
+// to users when Register with OAuth Google Authentication 
+Route::put('/fillAdditionalInfo', [RegisteredUserController::class, 'showAdditionalInfoForm'])
+    ->middleware(['auth'])
+    ->name('fillAdditionalInfo');
+
 require __DIR__ . '/auth.php';
+// OAuth login routes
+Route::middleware(['guest'])->group(function () {
+    Route::get('auth/google/redirect', [AuthenticatedSessionController::class,'redirectToGoogle'])->name('google.login');
+    Route::get('auth/google/callback', [AuthenticatedSessionController::class, 'handleGoogleCallback'])->name('google.login.callback');
+    //add info
+});
+

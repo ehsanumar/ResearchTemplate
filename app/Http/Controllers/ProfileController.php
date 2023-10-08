@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\faculties;
 use Illuminate\View\View;
 use App\Models\Department;
 use Illuminate\Http\Request;
@@ -19,7 +20,8 @@ class ProfileController extends Controller
     {
         return view('profile.edit', [
             'user' => $request->user(),
-            'departments' => Department::pluck('department','id')
+            'departments' => Department::pluck('department','id'),
+            'faculty' => faculties::pluck('faculty','id'),
         ]);
     }
 

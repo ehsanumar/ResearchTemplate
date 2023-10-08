@@ -3,30 +3,33 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
+use App\Models\faculties;
 use Illuminate\View\View;
 use App\Models\Department;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules;
 use App\Http\Controllers\Controller;
-use App\Models\faculties;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Auth\Events\Registered;
-use App\Providers\RouteServiceProvider;
 use Spatie\Permission\Traits\HasRoles;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Notifications\Notifiable;
 
 class RegisteredUserController extends Controller
 {
-    use HasRoles;
+    use HasRoles, Notifiable, HasFactory;
     /**
      * Display the registration view.
      */
     public function create(): View
     {
-        return view('auth.register',[
-            'departments' => Department::pluck('department','id') ,
-            'faculties' => faculties::pluck('faculty','id') ,]);
+        return view('auth.register', [
+            'departments' => Department::pluck('department', 'id'),
+            'faculties' => faculties::pluck('faculty', 'id'),
+        ]);
     }
 
     /**
@@ -38,7 +41,7 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
             'department_id' => ['required'],
             'phone' => ['required'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
@@ -47,15 +50,37 @@ class RegisteredUserController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'department_id' =>$request->department_id,
-            'phone' =>$request->phone,
+            'department_id' => $request->department_id,
+            'phone' => $request->phone,
             'password' => Hash::make($request->password),
-            'faculty_id' =>$request->faculty_id,
+            'faculty_id' => $request->faculty_id,
         ])->assignRole('student');
         event(new Registered($user));
 
         Auth::login($user);
 
+        return redirect(RouteServiceProvider::HOME);
+    }
+
+    public function showAdditionalInfoForm(Request $request)
+    {
+        $request->validate([
+            'department_id' => ['required'],
+            'phone' => ['required'],
+            'faculty_id' => ['required'],
+        ]);
+
+        // Find the currently authenticated user (the one who needs to update their info)
+        $user = User::where('id', auth()->id())->first();
+
+        // Update the user's information
+        $user->update([
+            'department_id' => $request->department_id,
+            'faculty_id' => $request->faculty_id,
+            'phone' => $request->phone,
+        ]);
+
+        // Redirect to the home page
         return redirect(RouteServiceProvider::HOME);
     }
 }

@@ -46,17 +46,28 @@
                 </div>
             @endif
         </div>
-            
+
         <div>
             <x-input-label for="phone" :value="__('Phone')" />
             <x-text-input id="phone" name="phone" type="text" class="mt-1 block w-full" :value="old('phone', $user->phone)" required autofocus autocomplete="phone" />
             <x-input-error class="mt-2" :messages="$errors->get('phone')" />
         </div>
+        <!-- Select Faculty -->
+               <div class="mt-4">
+                   <x-input-label for="faculty_id" :value="__('faculty')" />
+                   <select id="faculty_id" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"  name="faculty_id" :value="old('faculty_id')" required autocomplete="username" >
+                       <option value="{{ $user->faculty->id  }}" selected>{{ $user->faculty->faculty }}</option>
+                 @foreach ($faculty as $id=> $faculty1 )
+                 <option value="{{ $id }}">{{ $faculty1 }}</option>
+                 @endforeach
+                   </select>
+                   <x-input-error :messages="$errors->get('faculty')" class="mt-2" />
+               </div>
  <!-- Select department -->
         <div class="mt-4">
             <x-input-label for="department_id" :value="__('Department')" />
             <select id="department_id" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"  name="department_id" :value="old('department_id')" required autocomplete="username" >
-                <option value="{{ $user->department->id  }}">{{ $user->department->department }}</option>
+                <option value="{{ $user->department->id  }}" selected>{{ $user->department->department }}</option>
           @foreach ($departments as $id=> $department )
           <option value="{{ $id }}">{{ $department }}</option>
           @endforeach

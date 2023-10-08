@@ -17,9 +17,10 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->string('phone');
-            $table->foreignId('department_id')->constrained('departments')->onDelete('cascade');
-            $table->string('password');
+            $table->string('phone')->nullable();
+            $table->foreignId('department_id')->constrained('departments')->onDelete('cascade')->nullable();
+            $table->foreignId('faculty_id')->constrained('faculties')->onDelete('cascade')->nullable();
+            $table->string('password')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
