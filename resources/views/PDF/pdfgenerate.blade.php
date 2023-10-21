@@ -24,7 +24,7 @@ $students = explode(",", $research->student_name);
         }
 
         h2 {
-            text-align: center;
+            text-align: left;
         }
 
         h4 {
@@ -38,12 +38,21 @@ $students = explode(",", $research->student_name);
             text-align: justify;
         }
 
+body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            max-width: 8in ;
+            word-wrap: break-word; /* Set the maximum width to 8.1 inches */
+        }
+        table{
+             width: 8in;
 
+        }
 
     </style>
 </head>
 
-<body style="  font-family: Arial, sans-serif; margin: 30px;  ">
+<body >
     <div style="">
         <img src="{{ public_path('image/logo1.png') }}" alt=""
             style="width: 100px; padding-right:5px; float:left;">
@@ -82,9 +91,9 @@ $students = explode(",", $research->student_name);
     </div>
 
     <div
-        style=" margin-bottom: 30px; font-size:14px; font-family: 'Times New Roman', Times, serif; page-break-before:always; padding: 0 50px">
+        style=" margin-bottom: 30px; font-size:14px; font-family: 'Times New Roman', Times, serif; page-break-before:always; padding: 0 50px ;max-width: 8in;">
         <h4 style="color:#5aaaec;">Abstract:</h4>
-        <p style="font-size: 12px; padding-left:15px; line-height: 1.6;">
+        <p style="font-size: 12px; padding-left:15px; line-height: 1.6">
             {{ $research->abstract }}
         </p>
     </div>
@@ -100,8 +109,8 @@ $students = explode(",", $research->student_name);
         </p>
     </div> --}}
 
-        <div >
-<p style="text-align: justify;">
+        <div  >
+<p style="text-align: justify; ">
 
     {!! $research->content !!}
 </p>

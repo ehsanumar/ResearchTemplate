@@ -1,9 +1,9 @@
 @php
-        $teacherRole = Spatie\Permission\Models\Role::where('name', 'teacher')->first();
+    $teacherRole = Spatie\Permission\Models\Role::where('name', 'teacher')->first();
     $teachers = App\Models\User::role($teacherRole)
-                    ->where('department_id', auth()->user()->department_id)
-                    ->select('name','id')
-                    ->get()
+        ->where('department_id', auth()->user()->department_id)
+        ->select('name', 'id')
+        ->get();
 @endphp
 <x-app-layout>
     @role('super-admin')
@@ -16,8 +16,7 @@
 
                 </div>
                 <div class=" space-x-4 flex">
-                    <form  action="{{ route('filterResearch')}}" method="post"
-                        class="flex space-x-3 items-center ">
+                    <form action="{{ route('filterResearch') }}" method="post" class="flex space-x-3 items-center ">
                         @csrf
                         <select name="teacherfilter"
                             class="py-3 px-4 pr-9 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500">
@@ -30,8 +29,7 @@
                             <i class="fa-solid fa-filter text-2xl"></i>
                         </button>
                     </form>
-                    <form  action="{{ route('filterResearch') }}" method="post"
-                        class="flex space-x-3 items-center ">
+                    <form action="{{ route('filterResearch') }}" method="post" class="flex space-x-3 items-center ">
                         @csrf
                         <select name="statusfilter"
                             class="py-3 px-4 pr-9 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500">
@@ -142,7 +140,7 @@
                                             <th scope="col" class="px-6 py-4">Student</th>
                                             <th scope="col" class="px-6 py-4">Teacher</th>
                                             <th scope="col" class="px-6 py-4">Status</th>
-                                            <th scope="col" class="px-6 py-4">Download</th>
+                                            <th scope="col" class="px-6 py-4">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -162,9 +160,18 @@
                                                 <td class="whitespace-nowrap px-6 py-4 font-medium ">
                                                     {{ $research->status }}
                                                 </td>
-                                                <td class="whitespace-nowrap px-6 py-4 font-medium text-center ">
+                                                <td class="whitespace-nowrap px-6 py-4 font-medium text-center  flex">
                                                     <a href="/download-pdf/{{ $research->id }}"><i
-                                                            class="fa-solid fa-download text-xl text-red-400"></i></a>
+                                                            class="fa-solid fa-download  text-blue-400"></i></a>
+                                                    <form
+                                                        action="{{ route('research.destroy', ['research' => $research->id]) }}"
+                                                        method="post">
+                                                        @csrf
+                                                        @method('delete')
+                                                        <button><i
+                                                                class="fa-solid fa-trash px-3 text-red-400"></i></button>
+
+                                                    </form>
                                                 </td>
                                             </tr>
                                         @endforeach

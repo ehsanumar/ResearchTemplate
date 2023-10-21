@@ -15,8 +15,7 @@
                                     <x-input-label for="student_name" :value="__('Student-Name')" />
                                     <x-text-input id="student_name" class="block mt-1 w-full" type="text"
                                         name="student_name" :value="old('student_name')" required autofocus
-                                        placeholder="Student One , Student Two .....etc"
-                                        autocomplete="student_name" />
+                                        placeholder="Student One , Student Two .....etc" autocomplete="student_name" />
                                     <x-input-error :messages="$errors->get('student_name')" class="mt-2" />
                                 </div>
                                 <!--teacher Name -->
@@ -51,33 +50,34 @@
                                     </div><x-input-error :messages="$errors->get('abstract')" class="mt-2" />
                                 </div>
 
-                                   <!-- Keyword -->
+                                <!-- Keyword -->
                                 <div class="mt-4">
                                     <x-input-label for="keyword" :value="__('Keyword')" />
 
-                                    <x-text-input id="keyword" class="block mt-1 w-full" type="text" placeholder="Write Main Keywords like this : kurd ,kurdstan , .... " name="keyword"
+                                    <x-text-input id="keyword" class="block mt-1 w-full" type="text"
+                                        placeholder="Write Main Keywords like this : kurd ,kurdstan , .... " name="keyword"
                                         :value="old('keyword')" required autocomplete="new-keyword" />
 
                                     <x-input-error :messages="$errors->get('keyword')" class="mt-2" />
                                 </div>
 
                                 <!-- content -->
-                                <div class="mt-4" >
-                                    <div class="relative w-full min-w-[200px]"  >
+                                <div class="mt-4">
+                                    <div class="relative w-full min-w-[200px]">
                                         <label for="message"
                                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Content</label>
-                                        <textarea  name="content" id="content" style="text-align: justify;"
+                                        <textarea name="content" id="content" style="text-align: justify;"
                                             class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                             placeholder="Your content..."></textarea>
                                     </div><x-input-error :messages="$errors->get('content')" class="mt-2" />
                                 </div>
                                 <!-- Refrence -->
-                                  <div class="mt-4">
+                                <div class="mt-4">
                                     <div class="relative w-full min-w-[200px]">
                                         <label for="message"
                                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Refrence</label>
-                                        <textarea id="refrence" rows="4" name="refrence"
-                                            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        <textarea id="refrence" rows="8" name="refrence"
+                                            class="block p-2.5 w-full  text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                             placeholder="Your refrence..."></textarea>
                                     </div><x-input-error :messages="$errors->get('refrence')" class="mt-2" />
                                 </div>
@@ -126,7 +126,7 @@
                                                         <td class="whitespace-nowrap px-6 py-4 font-medium ">
                                                             {{ $Research->status }}
                                                         </td>
-                                                        <td class="whitespace-nowrap px-6 py-4 font-medium ">
+                                                        <td class="whitespace-nowrap px-6 py-4 font-medium flex ">
                                                             <form
                                                                 action="{{ route('research.destroy', ['research' => $Research->id]) }}"
                                                                 method="post">
@@ -134,9 +134,17 @@
                                                                 @method('delete')
                                                                 <button><i
                                                                         class="fa-solid fa-trash px-3 text-red-400"></i></button>
-                                                                        <button><i
-                                                                                class="fa-regular fa-pen-to-square text-blue-600"></i></button>
-                                                                    </form>
+
+                                                            </form>
+                                                            <form
+                                                                action="{{ route('research.edit', ['research' => $Research->id]) }}"
+                                                                method="get">
+                                                                @csrf
+                                                                <button><i
+                                                                        class="fa-regular fa-pen-to-square text-blue-600"></i></button>
+                                                            </form>
+                                                            <a href="/download-pdf/{{ $Research->id }}"><i
+                                                                    class="fa-solid fa-download  text-blue-400 px-3"></i></a>
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -161,7 +169,7 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
-                        <h1 class="text-center font-semibold text-xl text-gray-800 leading-tight">Your Research Result</h1>
+                        <h1 class="text-center font-semibold text-xl text-gray-800 leading-tight">Researchs </h1>
                         <div class="flex flex-col">
                             <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                                 <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
@@ -193,7 +201,7 @@
                                                                 @method('put')
 
                                                                 <select id="status"
-                                                                    class=" w-full text-sm border rounded-md text-gray-700  "
+                                                                    class=" w-auto text-sm border rounded-md text-gray-700  "
                                                                     name="status" required autocomplete="username">
                                                                     <option value="{{ $Research->status }}">
                                                                         {{ $Research->status }}</option>
@@ -207,9 +215,18 @@
                                                                 </button>
                                                             </form>
                                                         </td>
-                                                        <td class="whitespace-nowrap px-6 py-4 font-medium text-center ">
+                                                        <td class="whitespace-nowrap px-6 py-4 font-medium text-center flex ">
                                                             <a href="/download-pdf/{{ $Research->id }}"><i
-                                                                    class="fa-solid fa-download text-xl text-red-400"></i></a>
+                                                                    class="fa-solid fa-download  text-blue-400"></i></a>
+                                                            <form
+                                                                action="{{ route('research.destroy', ['research' => $Research->id]) }}"
+                                                                method="post">
+                                                                @csrf
+                                                                @method('delete')
+                                                                <button><i
+                                                                        class="fa-solid fa-trash px-3 text-red-400"></i></button>
+
+                                                            </form>
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -227,13 +244,13 @@
 
     @role('super-admin')
         <x-slot name="header">
-                    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                        {{ __('Dashboard') }}
-                    </h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('Dashboard') }}
+            </h2>
         </x-slot>
         <div class=" grid grid-cols-12">
             <div class=" col-span-2">
-            <x-sidebar></x-sidebar>
+                <x-sidebar></x-sidebar>
             </div>
             <div class=" col-span-10">
 

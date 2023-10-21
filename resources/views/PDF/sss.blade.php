@@ -57,9 +57,9 @@
 
     <div class="section">
         <h2>Abstract</h2>
-        <p>
+        <p style="max-width: 8in ;word-wrap: break-word;">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. Sed tristique vel orci eget
-            auctor. Nunc commodo bibendum fermentum.
+            auctor. Nunc commodo bibendum fermentum.kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk
         </p>
     </div>
 
