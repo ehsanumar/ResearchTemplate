@@ -12,38 +12,32 @@ Route::view('/', 'welcome');
 
 
 Route::get('/dashboard', function () {
-
-    // Query users with the specified conditions
-    //in user model i creat a fn to get user if teacher and if user in this department
-    $teachersInSameDepartment=User::teachersInSameDepartment()->pluck('name', 'id');
-
-    //Students belonging to the department head
-    $studentsOfDepartment = User::where('department_id', auth()->user()->department_id)
-        ->whereHas('roles', function ($query) {
-            $query->where('name', 'student');
-        })
-        ->count();
-    $teacherOfDepartment = User::where('department_id', auth()->user()->department_id)
-        ->whereHas('roles', function ($query) {
-            $query->where('name', 'teacher')->OrWhere('name', 'super-admin');
-        })
-        ->count();
-    $researchOfDepartment = Researchs::where('department_id', auth()->user()->department_id)->count();
-
     return view('Userdashboard', [
-        'Researchs' => Researchs::with('teacher')->where('user_id', auth()->id())->select('title', 'teacher_id', 'status', 'id')->latest()->paginate(1),
-        'teachers' => $teachersInSameDepartment,
-        'submetedResearchs' => Researchs::where('teacher_id', auth()->id())->select('title', 'student_name', 'status', 'id')->get(),
-        'studentsOfDepartment' => $studentsOfDepartment,
-        'teacherOfDepartment' => $teacherOfDepartment,
-        'researchOfDepartment' => $researchOfDepartment,
+        'Researchs' => Researchs::with(['teacher'])
+        ->where('user_id', auth()->id())
+        ->latest()
+        ->select('title', 'teacher_id', 'status','score', 'id')
+        ->paginate(4),
+        // Query users with the specified conditions
+        //in user model i creat a fn to get user if teacher and if user in this department
+        'teachers' => User::CheckDepartment()
+        ->RoleUserTarget('teacher')
+        ->with(['roles'])
+        ->pluck('name', 'id'),
+
+        'submetedResearchs' => Researchs::where('teacher_id', auth()->id())
+        ->select('score','title', 'student_name', 'status', 'id')
+        ->paginate(10),
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+Route::middleware('auth')
+->controller(ProfileController::class)
+->name('profile.')
+->group(function () {
+    Route::get('/profile', 'edit')->name('edit');
+    Route::patch('/profile', 'update')->name('update');
+    Route::delete('/profile', 'destroy')->name('destroy');
 });
 
 Route::get('/download-pdf/{id}', [TeacherController::class, 'DownloadPDF'])->name('downloadPdf')->middleware('auth');

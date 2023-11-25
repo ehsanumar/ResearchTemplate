@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use PDF;
-use App\Models\User;
 use App\Models\Researchs;
 use Illuminate\Http\Request;
 
@@ -14,6 +13,14 @@ class TeacherController extends Controller
         $FindResearch = Researchs::findOrFail($id);
         $FindResearch->update([
             'status' => $request['status'],
+        ]);
+        return back();
+    }
+    public function AddScore(Request $request, $id)
+    {
+        $FindResearch = Researchs::findOrFail($id);
+        $FindResearch->update([
+            'score' => $request['score'],
         ]);
         return back();
     }

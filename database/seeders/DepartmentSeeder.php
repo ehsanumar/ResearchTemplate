@@ -15,13 +15,18 @@ class DepartmentSeeder extends Seeder
     public function run()
     {
         $departments = [
-            'Chemical Engineering',
-            'Environmental Engineering',
-            'Petroleum and Mining Engineering',
+            'law',
+            'Accounting',
+            'management',
+            'International Relations',
+
+
+
+
 
         ];
         foreach ($departments as  $department) {
-            Department::create(['department' => $department, 'faculty_id' => 5]);
+            Department::create(['department' => $department, 'faculty_id' => 4]);
         }
 
     }

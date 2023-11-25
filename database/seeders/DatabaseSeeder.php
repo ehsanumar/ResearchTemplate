@@ -18,8 +18,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $teacherRole = Role::where('name', 'teacher')->first();
-         \App\Models\User::factory(10)->create()->each(function ($user) use ($teacherRole) {
+        $teacherRole = Role::where('name', 'teacsher')->first();
+         \App\Models\User::factory(1)->create()->each(function ($user) use ($teacherRole) {
             $user->assignRole($teacherRole);
         });;
 

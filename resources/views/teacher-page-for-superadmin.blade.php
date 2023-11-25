@@ -88,8 +88,8 @@
                                                                     class=" w-full text-sm border rounded-md text-gray-700  "
                                                                     name="role" required autocomplete="username">
                                                                     <option selected
-                                                                        value="{{ $teacher->roles->first()->id }}">
-                                                                        {{ $teacher->roles->first()->name }}</option>
+                                                                        value="{{ $teacher->roles[0]->id }}">
+                                                                        {{ $teacher->roles[0]->name }}</option>
                                                                     <option value="student">
                                                                         student </option>
                                                                     <option value="admin">
@@ -117,6 +117,13 @@
                                             </tbody>
                                         </table>
                                     </div>
+                                      @if (request()->has('sorting'))
+                                    {{ $sort->appends(['sorting' => request('sorting')])->links() }}
+                                    @endif
+                                    @if (request()->has('search'))
+                                    {{ $sort->appends(['search' => request('search')])->links() }}
+                                    @endif
+
                                 </div>
                             </div>
                         </div>
@@ -162,8 +169,8 @@
                                                         <select id="role"
                                                             class=" w-full text-sm border rounded-md text-gray-700  "
                                                             name="role" required autocomplete="username">
-                                                            <option selected value="{{ $teacher->roles->first()->id }}">
-                                                                {{ $teacher->roles->first()->name }}</option>
+                                                            <option selected value="{{ $teacher->roles[0]->id }}">
+                                                                {{ $teacher->roles[0]->name }}</option>
                                                             <option value="student">
                                                                 student </option>
                                                             <option value="admin">
@@ -191,6 +198,7 @@
                                     </tbody>
                                 </table>
                             </div>
+                            {{ $AllUsersHaveRoleTeacher->links() }}
                         </div>
                     </div>
                 </div>

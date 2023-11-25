@@ -21,28 +21,33 @@
     <script type="text/javascript">
         tinymce.init({
             selector: '#refrence',
+            blocks_formats: 'Paragraph=p;Heading 1=h1;Heading 4=h4',
             width: 575,
-            height: 160,
+            height: 250,
             branding: false,
             plugins: [
                 'link'
             ],
-            menubar: 'insert format',
+            menubar: 'insert',
+              toolbar: 'link'
 
         });
         tinymce.init({
             selector: '#content',
+            block_formats: 'Paragraph=p; Heading =h2; SubHeading =h4',
             width: 575,
             height: 300,
             content_style: 'p { text-align: justify;}',
             content_style: 'table { width: 8in; }',
+            content_style: 'img { max-width: 8in; }',
             branding: false,
-            block_formats: '',
             plugins: 'advlist autolink lists link image charmap pagebreak print preview  anchor searchreplace visualblocks code fullscreen insertdatetime media table paste code help wordcount',
-            toolbar: ' undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | ' +
-                'bullist numlist outdent indent | link image fullscreen  | print preview ' +
-                'forecolor backcolor emoticons | help  ',
-            menubar: 'favs file edit view insert format tools table help',
+            toolbar: ' undo redo blocks bold | alignleft aligncenter alignright  | ' +
+                'bullist numlist | link image fullscreen  | print preview ' +
+                'forecolor   ',
+
+            menubar: 'file edit view format insert tools table help',
+
             image_title: true,
             /* enable automatic uploads of images represented by blob or data URIs*/
             automatic_uploads: true,
@@ -82,37 +87,22 @@
                 input.click();
             },
 
-            style_formats: [{
-                    title: 'Heading',
-                    block: 'h2'
-                },
-                {
-                    title: 'Subheading',
-                    block: 'h4'
-                },
-                {
-                    title: 'Paragraph',
-                    block: 'p'
-                },
-            ],
+            
+
             // table of content
             setup: function(editor) {
-                // Listen for the 'change' event
+                 // Listen for the 'change' event
                 editor.on('change', function(e) {
                     // Get all paragraphs, h2 headings, and h4 headings in the content
                     var elements = editor.dom.select('h2, h4');
-
                     // Loop through each element
                     elements.forEach(function(element) {
                         // Generate a new 'id' based on the updated content and set it on the element
                         element.id = element.textContent.trim();
                     });
                 });
+
             }
-
-
-
-
 
         });
     </script>

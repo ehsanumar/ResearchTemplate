@@ -11,7 +11,6 @@ use App\Http\Requests\ResearchRequest;
 
 class ResearchsController extends Controller
 {
-
     public function store(ResearchRequest $request)
     {
         $ResearchDataSend = $request->validated();
@@ -35,13 +34,11 @@ class ResearchsController extends Controller
                 'user_id' => auth()->id(),
                 'status' => 'in_progress'
             ]);
-            //send email notification to Teacher Manager
-            $teacher = User::where('id', $new->teacher_id)->first();
-            Mail::to($teacher)->send(new StudentToTeacher($new));
-
-            // Sleep for a while to avoid overloading the server
-            sleep(0.5); // Sleep for 0.5 second
         }
+
+        //send email notification to Teacher Manager
+        $teacher = User::where('id', $new->teacher_id)->first();
+        Mail::to($teacher)->send(new StudentToTeacher($new));
 
         return back();
     }
@@ -57,7 +54,9 @@ class ResearchsController extends Controller
         $research = Researchs::with('teacher')->where('id', $research)
             ->where('user_id', auth()->id())
             ->first();
-        return view('editResearch.research-edit',[
+        return view(
+            'editResearch.research-edit',
+            [
                 'research' => $research,
                 'teachers' => $teachersInSameDepartment,
             ]
@@ -65,9 +64,10 @@ class ResearchsController extends Controller
     }
 
 
-    public function update(ResearchRequest $request,$research){
+    public function update(ResearchRequest $request, $research)
+    {
         $ResearchDataUpdate = $request->validated();
-$updateResearch=Researchs::where('id',$research);
+        $updateResearch = Researchs::where('id', $research);
         // Split the content into 1MB chunks
         $chunkSize = 1 * 1024 * 1024; // 1MB
         $content = $ResearchDataUpdate['content'];
@@ -87,8 +87,6 @@ $updateResearch=Researchs::where('id',$research);
                 'user_id' => auth()->id(),
                 'status' => 'in_progress'
             ]);
-            // Sleep for a while to avoid overloading the server
-            sleep(0.5); // Sleep for 1 second
         }
 
         return back();

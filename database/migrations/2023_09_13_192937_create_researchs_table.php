@@ -17,12 +17,16 @@ return new class extends Migration
             $table->id();
             $table->string('student_name');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('teacher_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('department_id')->constrained('departments')->onDelete('cascade');
+            $table->foreignId('faculty_id')->constrained('faculties')->onDelete('cascade');
             $table->enum('status', [ 'in_progress', 'Accept' , 'Reject']);
             $table->string('title');
             $table->longText('abstract');
+             $table->longText('content');
             $table->string('keyword');
-            $table->string('refrence');
+            $table->longText('refrence');
+            $table->bigInteger('score')->default('0');
             $table->timestamps();
         });
     }

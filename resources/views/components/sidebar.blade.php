@@ -1,6 +1,6 @@
-<div class="h-screen flex overflow-hidden bg-gray-100">
+<div class="h-full flex overflow-hidden bg-gray-100">
     <!-- Sidebar -->
-    <div class="bg-gray-800 shadow-xl">
+    <div class="flex-shrink-0 w-64 bg-gray-800 shadow-xl flex flex-col">
         <!-- Sidebar Content -->
         <div class="flex flex-col h-screen">
             <!-- Sidebar Header -->
@@ -47,11 +47,11 @@
                     </li>
 
                 </ul>
+                <div class="bg-gray-900 p-4">
+                    <a href="{{ route('logout') }}" class="text-gray-300 hover:text-white">Logout</a>
+                </div>
             </nav>
             <!-- Sidebar Footer -->
-            <div class="bg-gray-900 p-4">
-                <a href="{{ route('logout') }}" class="text-gray-300 hover:text-white">Logout</a>
-            </div>
         </div>
     </div>
 </div>

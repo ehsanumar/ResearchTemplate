@@ -1,5 +1,11 @@
 <x-app-layout>
     @role('student')
+<style>
+    .tox-promotion a{
+        background: none;
+        color: inherit;
+    }
+</style>
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -147,10 +153,11 @@
                                                                     class="fa-solid fa-download  text-blue-400 px-3"></i></a>
                                                         </td>
                                                     </tr>
-                                                @endforeach
+                                                    @endforeach
                                             </tbody>
                                         </table>
                                     </div>
+                                    {{ $Researchs->links() }}
                                 </div>
                             </div>
                         </div>
@@ -180,6 +187,7 @@
                                                     <th scope="col" class="px-6 py-4">Title</th>
                                                     <th scope="col" class="px-6 py-4">Student</th>
                                                     <th scope="col" class="px-6 py-4">Status</th>
+                                                    <th scope="col" class="px-6 py-4">Score</th>
                                                     <th scope="col" class="px-6 py-4">Actions</th>
                                                 </tr>
                                             </thead>
@@ -215,6 +223,20 @@
                                                                 </button>
                                                             </form>
                                                         </td>
+                                                        <td class="whitespace-nowrap px-6 py-4 font-medium ">
+                                                            <form
+                                                                action="{{ route('AddScore', ['id' => $Research->id]) }}"
+                                                                method="post">
+                                                                @csrf
+                                                                @method('put')
+
+                                                                <x-text-input class=" w-20 text-sm border rounded-md text-gray-700  "
+                                                                 value="{{ $Research->score }}" type="number" max='100' min="0" name="score" />
+                                                                <button>
+                                                                    <i class="fa-solid fa-arrow-right text-xl"></i>
+                                                                </button>
+                                                            </form>
+                                                        </td>
                                                         <td class="whitespace-nowrap px-6 py-4 font-medium text-center flex ">
                                                             <a href="/download-pdf/{{ $Research->id }}"><i
                                                                     class="fa-solid fa-download  text-blue-400"></i></a>
@@ -238,6 +260,7 @@
                         </div>
                     </div>
                 </div>
+                {{ $submetedResearchs->links() }}
             </div>
         </div>
     @endrole
@@ -253,8 +276,21 @@
                 <x-sidebar></x-sidebar>
             </div>
             <div class=" col-span-10">
+@php
 
+     //Students belonging to the department head
+   $studentsOfDepartment = App\Models\User::CheckDepartment()
+            ->RoleUserTarget('student')
+            ->count();
+    $teacherOfDepartment = App\Models\User::CheckDepartment()
+        ->whereHas('roles', function ($query) {
+            $query->where('name', 'teacher')
+            ->OrWhere('name', 'super-admin');
+        })
+        ->count();
+    $researchOfDepartment = App\Models\Researchs::where('department_id', auth()->user()->department_id)->count();
 
+@endphp
                 <x-dashboard studentsOfDepartment="{{ $studentsOfDepartment }} "
                     researchOfDepartment="{{ $researchOfDepartment }}" teacherOfDepartment="{{ $teacherOfDepartment }}">
                 </x-dashboard>

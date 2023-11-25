@@ -1,9 +1,7 @@
 @php
-    $teacherRole = Spatie\Permission\Models\Role::where('name', 'teacher')->first();
-    $teachers = App\Models\User::role($teacherRole)
-        ->where('department_id', auth()->user()->department_id)
-        ->select('name', 'id')
-        ->get();
+    $teachers = App\Models\User::CheckDepartment()
+                ->RoleUserTarget('teacher')
+                ->get(['name', 'id'])
 @endphp
 <x-app-layout>
     @role('super-admin')
@@ -82,9 +80,9 @@
                     @if ($sort->isEmpty())
                         <x-no-record />
                     @else
-                        <div class="flex flex-col">
-                            <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-                                <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+                        <div class="flex flex-col overflow-x-auto">
+                            <div class="sm:-mx-6 lg:-mx-8">
+                                <div class="inline-block min-w-full  py-2 sm:px-6 lg:px-8">
                                     <div class="overflow-hidden">
                                         <table class="w-auto ml-2 text-left text-sm font-light">
                                             <thead class="border-b border-gray-900 font-medium bg-gray-900 text-white ">
@@ -125,13 +123,25 @@
                                 </div>
                             </div>
                         </div>
+                        @if (request()->has('sorting'))
+                            {{ $sort->appends(['sorting' => request('sorting')])->links() }}
+                        @endif
+                        @if (request()->has('search'))
+                            {{ $sort->appends(['search' => request('search')])->links() }}
+                        @endif
+                        @if (request()->has('statusfilter'))
+                            {{ $sort->appends(['statusfilter' => request('statusfilter')])->links() }}
+                        @endif
+                        @if (request()->has('teacherfilter'))
+                            {{ $sort->appends(['teacherfilter' => request('teacherfilter')])->links() }}
+                        @endif
                 </div>
             @endif
         @else
-            <div class=" col-span-10 ml-5">
-                <div class="flex flex-col">
-                    <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-                        <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+            <div class=" col-span-10 ml-2">
+                <div class="flex flex-col overflow-x-auto">
+                    <div class="sm:-mx-6 lg:-mx-8">
+                        <div class="inline-block min-w-full  py-2 sm:px-6 lg:px-8">
                             <div class="overflow-hidden">
                                 <table class="w-auto ml-2 text-left text-sm font-light">
                                     <thead class="border-b border-gray-900 font-medium bg-gray-900 text-white ">
@@ -181,6 +191,7 @@
                         </div>
                     </div>
                 </div>
+                {{ $Researchs->links() }}
             </div>
             @endif
         </div>

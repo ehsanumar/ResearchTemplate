@@ -17,15 +17,7 @@ class User extends Authenticatable
 
     // User.php
 
-    public function scopeTeachersInSameDepartment($query)
-    {
-        $teacherRole = Role::where('name', 'teacher')->first();
-        $departmentId = auth()->user()->department_id;
 
-        return $query->whereHas('roles', function ($query) use ($teacherRole) {
-            $query->where('name', $teacherRole->name);
-        })->where('department_id', $departmentId);
-    }
 
     protected $fillable = [
         'name',
@@ -46,11 +38,22 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
     public function department(){
         return $this->belongsTo(department::class);
         }
     public function faculty(){
         return $this->belongsTo(faculties::class);
         }
-
+    public function scopeCheckDepartment($query)
+    {
+        return $query->where('department_id', auth()->user()->department_id);
+    }
+    public function scopeRoleUserTarget($query,$role)
+    {
+        return $query->whereHas('roles', function ($Query) use ($role)
+        {
+            $Query->where('name', $role);
+        });
+    }
 }

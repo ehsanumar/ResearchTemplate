@@ -5,16 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Researchs;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Role;
 
 class SuperAdminForTeacherController extends Controller
 {
     public function index()
     {
-        $Roles = Role::where('name', 'teacher')->first();
-        $AllUsersHaveRoleTeacher = User::where('department_id', auth()->user()->department_id)->whereHas('roles', function ($query) use ($Roles) {
-            $query->where('name', $Roles->name);
-        })->select('name', 'email', 'phone', 'id')->get();
+        $AllUsersHaveRoleTeacher = User::RoleUserTarget('teacher')
+        ->CheckDepartment()
+        ->with(['roles:id,name'])
+        ->select('name', 'email', 'phone', 'id')
+        ->paginate(15);
         return view('teacher-page-for-superadmin', ['AllUsersHaveRoleTeacher' => $AllUsersHaveRoleTeacher]); //
     }
 

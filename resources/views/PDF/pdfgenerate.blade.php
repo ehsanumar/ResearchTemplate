@@ -36,6 +36,7 @@ $students = explode(",", $research->student_name);
             padding-left: 15px;
             line-height: 2;
             text-align: justify;
+            text-justify: inter-word;
         }
 
 body {
@@ -110,10 +111,9 @@ body {
     </div> --}}
 
         <div  >
-<p style="text-align: justify; ">
 
     {!! $research->content !!}
-</p>
+
 
     </div>
     <div style=" margin-bottom: 45px; font-size:14px; font-family: 'Times New Roman', Times, serif; padding: 0 50px">

@@ -47,10 +47,10 @@
             </div>
             {{-- sort user --}}
             @if (isset($sort))
-            <div class=" col-span-10 ml-5 ">
-                        @if ($sort->isEmpty())
-                            <x-no-record />
-                        @else
+                <div class=" col-span-10 ml-5 ">
+                    @if ($sort->isEmpty())
+                        <x-no-record />
+                    @else
                         <div class="flex flex-col">
                             <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                                 <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
@@ -89,9 +89,8 @@
                                                                 <select id="role"
                                                                     class=" w-full text-sm border rounded-md text-gray-700  "
                                                                     name="role" required autocomplete="username">
-                                                                    <option selected
-                                                                        value="{{ $student->roles->first()->id }}">
-                                                                        {{ $student->roles->first()->name }}</option>
+                                                                    <option selected value="{{ $student->roles[0]->id }}">
+                                                                        {{ $student->roles[0]->name }}</option>
                                                                     <option value="teacher">
                                                                         teacher </option>
                                                                     <option value="admin">
@@ -119,86 +118,92 @@
                                             </tbody>
                                         </table>
                                     </div>
+                                    @if (request()->has('sorting'))
+                                    {{ $sort->appends(['sorting' => request('sorting')])->links() }}
+                                    @endif
+                                    @if (request()->has('search'))
+                                    {{ $sort->appends(['search' => request('search')])->links() }}
+                                    @endif
                                 </div>
                             </div>
                         </div>
-                    </div>
-                @endif
-            @else
-                {{-- withOut Sort --}}
-                <div class=" col-span-10 ml-5 ">
-                    <div class="flex flex-col">
-                        <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-                            <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-                                <div class="overflow-hidden">
-                                    <table class="w-auto text-left text-sm font-light ">
-                                        <thead class="border-b border-gray-900 font-medium bg-gray-900 text-white ">
-                                            <tr>
-                                                <th scope="col" class="px-6 py-4">Name</th>
-                                                <th scope="col" class="px-6 py-4">Email</th>
-                                                <th scope="col" class="px-6 py-4">Phone</th>
-                                                <th scope="col" class="px-6 py-4">Role</th>
-                                                <th scope="col" class="px-6 py-4">Actions</th>
+                </div>
+            @endif
+        @else
+            {{-- withOut Sort --}}
+            <div class=" col-span-10 ml-5 ">
+                <div class="flex flex-col">
+                    <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                        <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+                            <div class="overflow-hidden">
+                                <table class="w-auto text-left text-sm font-light ">
+                                    <thead class="border-b border-gray-900 font-medium bg-gray-900 text-white ">
+                                        <tr>
+                                            <th scope="col" class="px-6 py-4">Name</th>
+                                            <th scope="col" class="px-6 py-4">Email</th>
+                                            <th scope="col" class="px-6 py-4">Phone</th>
+                                            <th scope="col" class="px-6 py-4">Role</th>
+                                            <th scope="col" class="px-6 py-4">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($AllUsersHaveRoleStudent as $student)
+                                            <tr
+                                                class="border-b border-gray-900    duration-300 ease-in-out hover:bg-gray-700 hover:text-white transition-all">
+
+                                                <td class="whitespace-nowrap px-6 py-4 font-medium ">
+                                                    {{ $student->name }}
+                                                </td>
+                                                <td class="whitespace-nowrap px-6 py-4 font-medium ">
+                                                    {{ $student->email }}
+                                                </td>
+                                                <td class="whitespace-nowrap px-6 py-4 font-medium ">
+                                                    {{ $student->phone }}
+                                                </td>
+                                                <td class="whitespace-nowrap px-6 py-4 font-medium ">
+                                                    <form
+                                                        action="{{ route('student.update', ['student' => $student->id]) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        @method('put')
+
+                                                        <select id="role"
+                                                            class=" w-full text-sm border rounded-md text-gray-700  "
+                                                            name="role" required autocomplete="username">
+                                                            <option selected value="{{ $student->roles[0]->id }}">
+                                                                {{ $student->roles[0]->name }}</option>
+                                                            <option value="teacher">
+                                                                teacher </option>
+                                                            <option value="admin">
+                                                                super-admin </option>
+                                                        </select>
+                                                        <button>
+                                                            <i class="fa-solid fa-arrow-right text-xl"></i>
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                                <td class="whitespace-nowrap px-6 py-4 font-medium ">
+                                                    <form
+                                                        action="{{ route('student.destroy', ['student' => $student->id]) }}"
+                                                        method="post">
+                                                        @csrf
+                                                        @method('delete')
+                                                        <button>
+                                                            <i
+                                                                class="fa-solid fa-trash-can px-3 cursor-pointer text-red-400"></i>
+                                                        </button>
+                                                    </form>
+                                                </td>
                                             </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($AllUsersHaveRoleStudent as $student)
-                                                <tr
-                                                    class="border-b border-gray-900    duration-300 ease-in-out hover:bg-gray-700 hover:text-white transition-all">
-
-                                                    <td class="whitespace-nowrap px-6 py-4 font-medium ">
-                                                        {{ $student->name }}
-                                                    </td>
-                                                    <td class="whitespace-nowrap px-6 py-4 font-medium ">
-                                                        {{ $student->email }}
-                                                    </td>
-                                                    <td class="whitespace-nowrap px-6 py-4 font-medium ">
-                                                        {{ $student->phone }}
-                                                    </td>
-                                                    <td class="whitespace-nowrap px-6 py-4 font-medium ">
-                                                        <form
-                                                            action="{{ route('student.update', ['student' => $student->id]) }}"
-                                                            method="POST">
-                                                            @csrf
-                                                            @method('put')
-
-                                                            <select id="role"
-                                                                class=" w-full text-sm border rounded-md text-gray-700  "
-                                                                name="role" required autocomplete="username">
-                                                                <option selected
-                                                                    value="{{ $student->roles->first()->id }}">
-                                                                    {{ $student->roles->first()->name }}</option>
-                                                                <option value="teacher">
-                                                                    teacher </option>
-                                                                <option value="admin">
-                                                                    super-admin </option>
-                                                            </select>
-                                                            <button>
-                                                                <i class="fa-solid fa-arrow-right text-xl"></i>
-                                                            </button>
-                                                        </form>
-                                                    </td>
-                                                    <td class="whitespace-nowrap px-6 py-4 font-medium ">
-                                                        <form
-                                                            action="{{ route('student.destroy', ['student' => $student->id]) }}"
-                                                            method="post">
-                                                            @csrf
-                                                            @method('delete')
-                                                            <button>
-                                                                <i
-                                                                    class="fa-solid fa-trash-can px-3 cursor-pointer text-red-400"></i>
-                                                            </button>
-                                                        </form>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
+                            {{ $AllUsersHaveRoleStudent->links() }}
                         </div>
                     </div>
                 </div>
+            </div>
             @endif
         </div>
     @endrole

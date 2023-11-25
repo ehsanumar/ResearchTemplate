@@ -12,6 +12,7 @@ class Department extends Model
     protected $fillable = [
         'department',
     ];
+    
     public function faculties(){
         return $this->belongsTo(faculties::class,'faculty_id');
     }
