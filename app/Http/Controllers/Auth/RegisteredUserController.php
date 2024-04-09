@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
 use App\Models\faculties;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use App\Models\Department;
 use Illuminate\Http\Request;
@@ -68,6 +69,7 @@ class RegisteredUserController extends Controller
             'department_id' => ['required'],
             'phone' => ['required'],
             'faculty_id' => ['required'],
+            'password' => ['required'],
         ]);
 
         // Find the currently authenticated user (the one who needs to update their info)
@@ -75,9 +77,10 @@ class RegisteredUserController extends Controller
 
         // Update the user's information
         $user->update([
-            'department_id' => $request->department_id,
-            'faculty_id' => $request->faculty_id,
-            'phone' => $request->phone,
+            'department_id' => $request['department_id'],
+            'faculty_id' => $request['faculty_id'],
+            'phone' => $request['phone'],
+            'password' => $request['password'],
         ]);
 
         // Redirect to the home page

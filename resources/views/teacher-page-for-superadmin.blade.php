@@ -12,7 +12,7 @@
                     <form id="sortingForm" action="{{ route('sortTeacher') }}" method="post"
                         class="flex space-x-3 items-center ">
                         @csrf
-                        <select name="sorting" id="sortingSelect"
+                        <select name="sorting" id="sortingSelect" onchange="this.form.submit()"
                             class="py-3 px-4 pr-9 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500">
                             <option value="">Sort By</option>
                             <option value="Latest">Latest</option>
@@ -20,9 +20,6 @@
                             <option value="A-z">A-z</option>
                             <option value="Z-a">Z-a</option>
                         </select>
-                        <button type="submit">
-                            <i class="fa-solid fa-sort text-2xl"></i>
-                        </button>
                     </form>
                     <form id="searchForm" action="{{ route('searchTeacher') }}" method="post"
                         class="flex items-center space-x-3">
@@ -84,7 +81,7 @@
                                                                 @csrf
                                                                 @method('put')
 
-                                                                <select id="role"
+                                                                <select id="role" onchange="this.form.submit()"
                                                                     class=" w-full text-sm border rounded-md text-gray-700  "
                                                                     name="role" required autocomplete="username">
                                                                     <option selected
@@ -95,9 +92,7 @@
                                                                     <option value="admin">
                                                                         super-admin </option>
                                                                 </select>
-                                                                <button>
-                                                                    <i class="fa-solid fa-arrow-right text-xl"></i>
-                                                                </button>
+
                                                             </form>
                                                         </td>
                                                         <td class="whitespace-nowrap px-6 py-4 font-medium ">
@@ -166,7 +161,7 @@
                                                         @csrf
                                                         @method('put')
 
-                                                        <select id="role"
+                                                        <select id="role" onchange="this.form.submit()"
                                                             class=" w-full text-sm border rounded-md text-gray-700  "
                                                             name="role" required autocomplete="username">
                                                             <option selected value="{{ $teacher->roles[0]->id }}">
@@ -176,9 +171,6 @@
                                                             <option value="admin">
                                                                 super-admin </option>
                                                         </select>
-                                                        <button>
-                                                            <i class="fa-solid fa-arrow-right text-xl"></i>
-                                                        </button>
                                                     </form>
                                                 </td>
                                                 <td class="whitespace-nowrap px-6 py-4 font-medium ">

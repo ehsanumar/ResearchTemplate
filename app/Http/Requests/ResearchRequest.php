@@ -30,6 +30,7 @@ class ResearchRequest extends FormRequest
             'abstract' => 'required',
             'keyword' => 'required',
             'refrence' => 'required',
+            'content' => 'required',
         ];
     }
 }

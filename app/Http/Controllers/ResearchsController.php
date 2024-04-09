@@ -2,44 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use App\Models\Researchs;
-use App\Mail\StudentToTeacher;
-use Spatie\Permission\Models\Role;
-use Illuminate\Support\Facades\Mail;
+use App\Events\ResearchStudentEvent;
 use App\Http\Requests\ResearchRequest;
+use App\Models\Researchs;
+use App\Models\User;
 
 class ResearchsController extends Controller
 {
     public function store(ResearchRequest $request)
     {
         $ResearchDataSend = $request->validated();
-
-        // Split the content into 1MB chunks
-        $chunkSize = 1 * 1024 * 1024; // 1MB
-        $content = $request['content'];
-        $contentChunks = str_split($content, $chunkSize);
-        // Create a new Researchs record for each chunk
-        foreach ($contentChunks as $contentChunk) {
-            $new = Researchs::create([
-                'student_name' => $ResearchDataSend['student_name'],
-                'teacher_id' => $ResearchDataSend['teacher_name'],
-                'title' => $ResearchDataSend['title'],
-                'abstract' => $ResearchDataSend['abstract'],
-                'keyword' => $ResearchDataSend['keyword'],
-                'refrence' => $ResearchDataSend['refrence'],
-                'department_id' => auth()->user()->department_id,
-                'faculty_id' => auth()->user()->faculty_id,
-                'content' => $contentChunk,
-                'user_id' => auth()->id(),
-                'status' => 'in_progress'
-            ]);
-        }
-
-        //send email notification to Teacher Manager
-        $teacher = User::where('id', $new->teacher_id)->first();
-        Mail::to($teacher)->send(new StudentToTeacher($new));
-
+        event(new ResearchStudentEvent($ResearchDataSend));
         return back();
     }
 

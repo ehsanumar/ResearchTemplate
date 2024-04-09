@@ -9,7 +9,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 Route::view('/', 'welcome');
-
+Route::view('/about', 'about');
 
 Route::get('/dashboard', function () {
     return view('Userdashboard', [

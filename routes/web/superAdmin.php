@@ -27,7 +27,7 @@ Route::group(['middleware' => ['role:super-admin', 'auth'], 'prefix' => 'super-a
                 'Researchs' =>
                 Researchs::CheckDepartment()
                     ->with('teacher')
-                    ->select('student_name', 'teacher_id', 'title', 'status', 'id')
+                    ->select('student_name', 'teacher_id', 'title', 'status','score', 'id')
                     ->latest()
                     ->paginate(5),
             ]

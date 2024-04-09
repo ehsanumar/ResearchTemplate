@@ -37,14 +37,12 @@
             block_formats: 'Paragraph=p; Heading =h2; SubHeading =h4',
             width: 575,
             height: 300,
-            content_style: 'p { text-align: justify;}',
-            content_style: 'table { width: 8in; }',
-            content_style: 'img { max-width: 8in; }',
+            content_style: 'table { width: 8in; } img { max-width: 8in; }',
+ // Add the style here
             branding: false,
             plugins: 'advlist autolink lists link image charmap pagebreak print preview  anchor searchreplace visualblocks code fullscreen insertdatetime media table paste code help wordcount',
-            toolbar: ' undo redo blocks bold | alignleft aligncenter alignright  | ' +
-                'bullist numlist | link image fullscreen  | print preview ' +
-                'forecolor   ',
+            toolbar: ' undo redo blocks link | alignleft aligncenter alignright  | ' +
+                'bullist numlist | link image fullscreen  | print preview ',
 
             menubar: 'file edit view format insert tools table help',
 
@@ -87,20 +85,24 @@
                 input.click();
             },
 
-            
+
 
             // table of content
             setup: function(editor) {
-                 // Listen for the 'change' event
-                editor.on('change', function(e) {
-                    // Get all paragraphs, h2 headings, and h4 headings in the content
+                // Listen for the 'change' event
+                editor.on('change', function (e) {
+                    // Get all  h2 headings, and h4 headings in the content
                     var elements = editor.dom.select('h2, h4');
                     // Loop through each element
-                    elements.forEach(function(element) {
+                    elements.forEach(function (element) {
                         // Generate a new 'id' based on the updated content and set it on the element
                         element.id = element.textContent.trim();
                     });
                 });
+
+                //-------------------------------
+
+
 
             }
 

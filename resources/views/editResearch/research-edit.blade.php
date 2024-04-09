@@ -15,7 +15,7 @@
                             <div>
                                 <x-input-label for="student_name" :value="__('Student-Name')" />
                                 <x-text-input id="student_name" class="block mt-1 w-full" type="text"
-                                    name="student_name" :value=" $research->student_name " required autofocus
+                                    name="student_name" :value="$research->student_name" required autofocus
                                     placeholder="Student One , Student Two .....etc" autocomplete="student_name" />
                                 <x-input-error :messages="$errors->get('student_name')" class="mt-2" />
                             </div>

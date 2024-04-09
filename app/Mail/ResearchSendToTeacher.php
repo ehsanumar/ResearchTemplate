@@ -6,11 +6,10 @@ use App\Models\Researchs;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Envelope;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\SerializesModels;
 
-class StudentToTeacher extends Mailable
+class ResearchSendToTeacher extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -21,14 +20,14 @@ class StudentToTeacher extends Mailable
      */
     public $research;
 
-    public function __construct(Researchs $research)
+    public function __construct(Researchs $new)
     {
-        $this->research = $research;
+        $this->research = $new;
     }
-    public function build()
-    {
+
+    public function build(){
         return $this->subject('Student To Teacher') // Set the subject of the email
-        ->markdown('emails.StudentToTeacher')->with('research' , $this->research); // Use a Markdown template for the email content
+        ->markdown('emails.StudentToTeacher')->with('research' , $this->research);
     }
     /**
      * Get the message envelope.
@@ -50,7 +49,7 @@ class StudentToTeacher extends Mailable
     public function content()
     {
         return new Content(
-            markdown: 'emails.StudentToTeacher',
+            view: 'view.name',
         );
     }
 

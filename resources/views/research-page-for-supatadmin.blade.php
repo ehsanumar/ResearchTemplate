@@ -16,34 +16,29 @@
                 <div class=" space-x-4 flex">
                     <form action="{{ route('filterResearch') }}" method="post" class="flex space-x-3 items-center ">
                         @csrf
-                        <select name="teacherfilter"
+                        <select name="teacherfilter" onchange="this.form.submit()"
                             class="py-3 px-4 pr-9 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500">
                             <option value="">Filter By Teacher</option>
                             @foreach ($teachers as $teacher)
                                 <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
                             @endforeach
                         </select>
-                        <button type="submit">
-                            <i class="fa-solid fa-filter text-2xl"></i>
-                        </button>
                     </form>
                     <form action="{{ route('filterResearch') }}" method="post" class="flex space-x-3 items-center ">
                         @csrf
-                        <select name="statusfilter"
+                        <select name="statusfilter" onchange="this.form.submit()"
                             class="py-3 px-4 pr-9 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500">
                             <option value="">Filter By Status</option>
                             <option value="in_progress">in_progress</option>
                             <option value="Accept">Accept</option>
                             <option value="Reject">Reject</option>
                         </select>
-                        <button type="submit">
-                            <i class="fa-solid fa-filter text-2xl"></i>
-                        </button>
+
                     </form>
                     <form id="sortingForm" action="{{ route('sortResearch') }}" method="post"
                         class="flex space-x-3 items-center ">
                         @csrf
-                        <select name="sorting" id="sortingSelect"
+                        <select name="sorting" id="sortingSelect" onchange="this.form.submit()"
                             class="py-3 px-4 pr-9 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500">
                             <option value="">Sort By</option>
                             <option value="Latest">Latest</option>
@@ -51,9 +46,7 @@
                             <option value="A-z">A-z</option>
                             <option value="Z-a">Z-a</option>
                         </select>
-                        <button type="submit">
-                            <i class="fa-solid fa-sort text-2xl"></i>
-                        </button>
+
                     </form>
                     <form id="searchForm" action="{{ route('searchResearch') }}" method="post"
                         class="flex items-center space-x-3">
@@ -90,6 +83,7 @@
                                                     <th scope="col" class="px-6 py-4">Title</th>
                                                     <th scope="col" class="px-6 py-4">Student</th>
                                                     <th scope="col" class="px-6 py-4">Teacher</th>
+                                                    <th scope="col" class="px-6 py-4">Score</th>
                                                     <th scope="col" class="px-6 py-4">Status</th>
                                                     <th scope="col" class="px-6 py-4">Download</th>
                                                 </tr>
@@ -107,6 +101,9 @@
                                                         </td>
                                                         <td class="whitespace-nowrap px-6 py-4 font-medium ">
                                                             {{ $research->teacher->name }}
+                                                        </td>
+                                                        <td class="whitespace-nowrap px-6 py-4 font-medium ">
+                                                            {{ $research->score }}
                                                         </td>
                                                         <td class="whitespace-nowrap px-6 py-4 font-medium ">
                                                             {{ $research->status }}
@@ -149,6 +146,7 @@
                                             <th scope="col" class="px-6 py-4">Title</th>
                                             <th scope="col" class="px-6 py-4">Student</th>
                                             <th scope="col" class="px-6 py-4">Teacher</th>
+                                            <th scope="col" class="px-6 py-4">Score</th>
                                             <th scope="col" class="px-6 py-4">Status</th>
                                             <th scope="col" class="px-6 py-4">Actions</th>
                                         </tr>
@@ -166,6 +164,9 @@
                                                 </td>
                                                 <td class="whitespace-nowrap px-6 py-4 font-medium ">
                                                     {{ $research->teacher->name }}
+                                                </td>
+                                                <td class="whitespace-nowrap px-6 py-4 font-medium ">
+                                                    {{ $research->score }}
                                                 </td>
                                                 <td class="whitespace-nowrap px-6 py-4 font-medium ">
                                                     {{ $research->status }}

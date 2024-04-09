@@ -18,16 +18,24 @@ class TeacherController extends Controller
     }
     public function AddScore(Request $request, $id)
     {
-        $FindResearch = Researchs::findOrFail($id);
-        $FindResearch->update([
-            'score' => $request['score'],
+        // Validate the score data
+        $this->validate($request, [
+            'score' => 'required|integer|min:0', // Adjust validation rules as needed
         ]);
+
+        $research = Researchs::findOrFail($id);
+
+        // Update the score and save the research
+        $research->score = $request->score;
+        $research->save();
+
+        // Return a success message (or redirect)
         return back();
     }
+
     public function DownloadPDF($id){
         $FindResearch = Researchs::with('teacher')->findOrFail($id);
-        $pdfGenerate= PDF::loadView('PDF.pdfgenerate',['research' => $FindResearch]);
-        return $pdfGenerate->download('research_' . $id . '.pdf');
+        return PDF::loadView('PDF.pdfgenerate',['research' => $FindResearch])->download('research_' . $id . '.pdf');
     }
 
 }

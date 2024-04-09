@@ -5,61 +5,230 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <title>Research</title>
     @vite('resources/css/app.css')
 </head>
 
-<body>
-    <!-- Main navigation container -->
-    <nav class="relative flex w-full flex-wrap items-center justify-between bg-[#FBFBFB] py-2 text-neutral-500 shadow-lg  focus:text-neutral-700 dark:bg-neutral-600 lg:py-4"
-        data-te-navbar-ref>
-        <div class="flex w-full flex-wrap items-center justify-between px-3">
-            <div>
-                <a class=" my-1 flex items-center text-neutral-900 hover:text-neutral-900 focus:text-neutral-900 lg:mb-0 lg:mt-0"
-                    href="#">
-                    <img class="" src="{{ asset('/image/logo1.png') }}" style="height: 40px" alt="TE Logo"
-                        loading="lazy" />
-                </a>
+
+
+<body class="">
+<div class=" flex justify-between items-center   shadow-xl bg-white  ">
+    <div class="basis-2/12  flex flex-row justify-between m-3"><!--logo-->
+        <a class=" my-1 flex items-center text-neutral-900 hover:text-neutral-900 focus:text-neutral-900 lg:mb-0 lg:mt-0"
+           href="#">
+        <img src="{{ asset('/image/logo1.png') }}" style="height: 50px" >
+        </a>
+    </div>
+    <div class="basis-7/12 flex justify-center items-center">
+
+
+        <div class="md:flex flex-1 flex-wrap ">
+            <!-- Hamburger menu icon for mobile -->
+            <div class="flex justify-end items-center p-2  md:hidden">
+                <button id="hamburger-icon" class="focus:outline-none focus:hidden">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
             </div>
 
-            <!-- Hamburger button for mobile view -->
-
-
-            <!-- Collapsible navbar container -->
-            <div class="!visible mt-2 hidden flex-grow basis-[100%] items-center lg:mt-0 lg:!flex lg:basis-auto"
-                id="navbarSupportedContent4" data-te-collapse-item>
-                <!-- Left links -->
-                <ul class="list-style-none mr-auto flex flex-col pl-0 lg:mt-1 lg:flex-row" data-te-navbar-nav-ref>
-                    <!-- Home link -->
-                    <li class="my-4 lg:my-0 lg:pl-2 lg:pr-1" data-te-nav-item-ref>
-                        <a class="text-neutral-700 text-lg font-bold font disabled:text-black/30 hover:text-3xl dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
-                            aria-current="page" href="#" data-te-nav-link-ref>Soran Uneversity</a>
-                    </li>
-                </ul>
-
-                <div class="flex items-center px-2">
-
-                    <a class="mr-4 hover:text-neutral-700" href="">Home</a>
-                    <a class="mr-4 hover:text-neutral-700" href="">About</a>
+            <ul id="desktop-navbar" class="hidden md:flex font-normal font-serif ">
+                <li class="space-x-4 -translate-x-16 m-2 p-2 bg-slate-50   border rounded-s-full   ">
+                    <a href="/" class="  border   p-2  rounded-s-2xl  bg-yellow-600 text-white">Home</a>
+                    <a href="/about" class=" py-2 p-2 hover:bg-yellow-600 hover:text-white">About</a>
                     @auth
-                        <a class="mr-4 hover:text-neutral-700" href="{{ route('dashboard') }}">Dashboard</a>
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-
-                            <x-dropdown-link :href="route('logout')"
-                                onclick="event.preventDefault();
-                                                this.closest('form').submit();">
-                                {{ __('Log Out') }}
-                            </x-dropdown-link>
-                        </form>
+                        <a class="py-2 p-2 hover:bg-yellow-600 hover:text-white" href="{{ route('dashboard') }}">Dashboard</a>
                     @else
-                        <a class="mr-4 hover:text-neutral-700 " href="{{ route('register') }}">Register</a>
-                        <a class="hover:text-neutral-700" href="{{ route('login') }}">{{ __('Login') }}</a>
+                        <a class="py-2 p-2 hover:bg-yellow-600 hover:text-white" href="{{ route('register') }}">Register</a>
+                        <a class="py-2 p-2 hover:bg-yellow-600 hover:text-white" href="{{ route('login') }}">{{ __('Login') }}</a>
                     @endauth
+
+                </li>
+            </ul>
+
+            <!-- Logout icon -->
+            <div class="hidden md:flex flex-1 justify-end items-center ">
+                <form method="POST"  action="{{ route('logout') }}">
+                    @csrf
+
+                    <button type="submit" class=" p-2 bg-red-400 text-white rounded" >Logout</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE SHOW CODE -->
+<div class="  p-2 ">
+    <div class=" sm:w-full sm:h-full sm:m-auto sm:inline-block   md:flex-col m-auto items-center justify-center w-full  "><!--slide show-->
+        <div class="slideshow-container  relative h-screen flex items-center justify-center overflow-hidden ">
+            <div class="mySlides">
+                <img src="{{asset('/image/campus4.jpg')}}" loading="lazy"  class="w-full h-full object-cover  " alt="Slide 1">
+            </div>
+            <div class="mySlides">
+                <img src="{{asset('/image/campus6.jpg')}}" loading="lazy"  class="w-full h-full object-cover  " alt="Slide 2">
+            </div>
+            <div class="mySlides">
+                <img src="{{asset('/image/campus9.jpg')}}" loading="lazy"  class="w-full h-full object-cover  " alt="Slide 2">
+            </div>
+            <!-- Add more slides as needed -->
+        </div>
+
+    </div>
+</div>
+
+<script>
+// JavaScript for Slideshow
+let slideIndex = 0;
+showSlides();
+
+function showSlides() {
+let slides = document.getElementsByClassName("mySlides");
+for (let i = 0; i < slides.length; i++) {
+slides[i].style.display = "none";
+}
+slideIndex++;
+if (slideIndex > slides.length) {
+slideIndex = 1;
+}
+slides[slideIndex - 1].style.display = "block";
+setTimeout(showSlides, 3000); // Change image every 3 seconds
+}
+</script>
+<div class="flex flex-col sm:flex-row justify-between h-screen mt-24 ">
+    <!-- Video and text register section -->
+    <div class="sm:w-full lg:w-full flex flex-col space-y-6 p-6 ">
+        <h1 class="text-3xl lg:text-5xl font-normal text-gray-500 -mt-4">How To Register/Login?</h1>
+        <p class="text-sm lg:text-base font-juan font-bold underline underline-offset-[12px] decoration-2 decoration-yellow-500">It's Simple</p>
+        <p class="text-sm lg:text-base leading-loose">It is simple, just click on the "Login via Google" button on the top of this. If you are unsure, simply watch this video on the right. You will be redirected to the Google authentication page where you will be asked for your email and password. You must use your university email address and authenticate to Google. Once you have authenticated with Google, you will be redirected to the Soran LMS portal where you will be automatically logged in/registered.</p>
+    </div>
+    <div class="sm:w-full lg:w-full flex flex-col p-4 lg:items-end">
+
+        <iframe src="https://www.youtube.com/embed/8-D1qw9ub9I?si=C2qqlW4Mm19OGz36" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen width="500" height="250" ></iframe>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+<!-- Faculty -->
+
+<div class="p-4 bg-inherit -translate-y-16   sm:-translate-y-12  ">
+    <main class="container mx-auto px-4 py-10 prose lg:prose-lg ">
+        <h2 class="text-3xl font-bold text-center pb-4 -translate-y-6">Soran University Faculties</h2>
+        <p class="text-gray-600 text-center -translate-y-6">Soran University offers various faculties including Engineering, Science, Education, Law and International Relations, and Humanities and Social Sciences.</p>
+
+        <div class=" sm: grid grid-cols-1  lg:flex justify-center   gap-x-6 items-center  "> <!--to row and colomn fuculty in vertical or horizental-->
+            <div class=" flex justify-center w-auto h-auto gap-x-6">
+                <div class="grid justify-center  space-y-4 items-center   p-4 border border-gray-200 rounded-md hover:shadow-xl  ">
+                <span class=" border-gray-600   rounded-md mx-auto   w-1/2 ">
+                  <img src="{{asset('/image/eng.jpg')}}" class="w-24 rounded-lg ">
+                </span>
+                    <h3 class="text-xl font-bold text-center">Faculty of Engineering</h3>
+                    <p class="text-gray-600 text-center">The Faculty of Engineering offers a variety of undergraduate and postgraduate programs .</p>
+                    <a href="#" class="px-4 py-2  m-auto w-2/3 boreder border-2 border-blue-400 text-blue-500 rounded-md hover:bg-blue-700 hover:text-white hover:border-white">Read More</a>
+                </div>
+                <div class="grid justify-center  space-y-4 items-center   p-4 border  rounded-md hover:shadow-xl  ">
+                <span class=" border-gray-600   rounded-md mx-auto   w-1/2 ">
+                  <img src="{{asset('/image/278529176_5429782163732564_7373300336659800678_n.jpg')}}" class="w-24 rounded-lg ">
+                </span>
+                    <h3 class="text-xl font-bold text-center">Faculty of Science</h3>
+                    <p class="  text-gray-600 text-center">The Faculty of Science provides a strong foundation in natural sciences and big research.</p>
+
+                    <a href="#" class="px-4 py-2  m-auto w-2/3 boreder border-2 border-blue-400 text-blue-500 rounded-md hover:bg-blue-700 hover:text-white hover:border-white">Read More</a>
+                </div>
+                <div class="grid justify-center  space-y-4 items-center   p-4 border border-gray-200 rounded-md hover:shadow-xl  ">
+                <span class="border border-gray-300   rounded-md mx-auto bg-slate-100   w-1/2 ">
+                  <img src="{{asset('/image/law.jpg')}}" class="w-24 rounded-lg ">
+                </span>
+                    <h3 class="text-xl font-bold text-center">Faculty of Law</h3>
+                    <p class="text-gray-600 text-center">The Faculty of Law equips students with the knowledge and skills for legal careers.</p>
+
+                    <a href="#" class="px-4 py-2  m-auto w-2/3 boreder border-2 border-blue-400 text-blue-500 rounded-md hover:bg-blue-700 hover:text-white hover:border-white">Read More</a>
+                </div>
+                <div class="grid justify-center  space-y-4 items-center   p-4 border border-gray-200 rounded-md hover:shadow-xl  ">
+                <span class=" border-gray-600   rounded-md mx-auto   w-1/2 ">
+                  <img src="{{asset('/image/art.jpg')}}" class="w-24 rounded-lg">
+                </span>
+                    <h3 class="text-xl font-bold text-center">Faculty of Art</h3>
+                    <p class="text-gray-600 text-center">The Faculty of Art, Education and Humanities fosters creativity and critical thinking.</p>
+
+                    <a href="#" class="px-4 py-2  m-auto w-2/3 boreder border-2 border-blue-400 text-blue-500 rounded-md hover:bg-blue-700 hover:text-white hover:border-white">Read More</a>
+                </div>
+                <div class="grid justify-center  space-y-4 items-center   p-4 border border-gray-200 rounded-md hover:shadow-xl  ">
+                <span class=" border-gray-600   rounded-md mx-auto   w-1/2 ">
+                  <img src="{{asset('/image/eduaj.jpg')}}" class="w-24 rounded-lg ">
+                </span>
+                    <h3 class="text-xl font-bold text-center">Faculty of Eduacation</h3>
+                    <p class="text-gray-600 text-center">The Faculty of Eduacation, fosters creativity and critical thinking for building student</p>
+
+                    <a href="#" class="px-4 py-2  m-auto w-2/3 boreder border-2 border-blue-400 text-blue-500 rounded-md hover:bg-blue-700 hover:text-white hover:border-white">Read More</a>
                 </div>
             </div>
         </div>
-    </nav>
+    </main>
+</div>
+
+
+
+<!-- <style>
+  @keyframes scroll {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+  }
+
+  .scroll-container {
+    animation: scroll 15s linear infinite;
+  }
+</style> -->
+
+
+
+<!--fotter-->
+<div class="footer flex flex-col lg:flex-row max-h-none bg-gray-900 mt-12 space-y-8 lg:space-y-0 lg:space-x-12 p-6 lg:p-10 border-t-2 border-t-lmsfotter">
+    <div class="lg:w-1/3   flex flex-col space-y-4 lg:leading-normal">
+        <h1 class="font-medium text-base lg:text-lg text-white underline underline-offset-8 decoration-2 decoration-lmsfotter">DIRECTOR OF PROJECT</h1>
+        <p class="text-white text-sm lg:text-base font-light lg:font-light">EHSAN - BACK-END DEVELOPER</p>
+        <p class="text-white text-sm lg:text-base font-light lg:font-light">ZANEAR - FRONT-END DEVELOPER</p>
+        <p class="text-white text-sm lg:text-base font-light lg:font-light">Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi nisi tempore, suscipit iste veritatis iusto ab distinctio maiores laboriosam quam consequatur</p>
+    </div>
+    <div class="lg:w-1/3 flex flex-col space-y-4 lg:leading-normal">
+        <h1 class="font-medium text-base lg:text-lg text-white underline underline-offset-8 decoration-2 decoration-lmsfotter">RESEARCH STUDENT</h1>
+        <p class="text-white text-sm lg:text-base font-light lg:font-light">Faculty of Science</p>
+        <p class="text-white text-sm lg:text-base font-light lg:font-light">Faculty of Education</p>
+        <p class="text-white text-sm lg:text-base font-light lg:font-light">Faculty of Law</p>
+        <p class="text-white text-sm lg:text-base font-light lg:font-light">Faculty of Engineering</p>
+        <p class="text-white text-sm lg:text-base font-light lg:font-light">Faculty of Arts</p>
+    </div>
+    <div class="lg:w-1/3 flex flex-col space-y-4 lg:leading-normal">
+        <h1 class="font-medium text-base lg:text-lg text-white underline underline-offset-8 decoration-2 decoration-lmsfotter">SORAN UNIVERSITY</h1>
+        <p class="text-white text-sm lg:text-base font-light lg:font-light">Presidency Building Kawa Street Soran Erbil Kurdistan Region of Iraq</p>
+        <p class="text-white text-sm lg:text-base font-light lg:font-light">Phone: (+964) 750-425-5657</p>
+        <p class="text-white text-sm lg:text-base font-light lg:font-light">E-mail: info@soran.edu.iq</p>
+        <p class="text-white text-md lg:text-base font-medium lg:font-medium">CONNECT WITH US:</p>
+        <div class="space-x-2">
+            <a href="#" class="p-2">
+                <i class="fa-brands fa-twitter fa-lg" style="color: #00acee;"></i>
+            </a>
+            <a href="#" class="p-2">
+                <i class="fa-brands fa-linkedin fa-lg" style="color: #0A66C2;"></i>
+            </a>
+            <a href="#" class="p-2">
+                <i class="fa-brands fa-facebook fa-lg" style="color: #4267B2;"></i>
+            </a>
+            <a href="#" class="p-2">
+                <i class="fa-brands fa-instagram fa-lg" style="color: #d62976;"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+
+
 </body>
 
 </html>

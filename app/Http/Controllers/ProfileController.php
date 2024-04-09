@@ -14,8 +14,9 @@ use App\Http\Requests\ProfileUpdateRequest;
 class ProfileController extends Controller
 {
     /**
-     * Display the user's profile form.
+     * Display the user's profile form. z
      */
+    
     public function edit(Request $request): View
     {
         return view('profile.edit', [

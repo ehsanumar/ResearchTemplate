@@ -35,8 +35,6 @@ $students = explode(",", $research->student_name);
             font-size: 12px;
             padding-left: 15px;
             line-height: 2;
-            text-align: justify;
-            text-justify: inter-word;
         }
 
 body {
@@ -83,7 +81,7 @@ body {
 {{ $loop->iteration }} - {{ $student }} <br>
             @endforeach
             </div>
-            <div style="float: right; width: 50%; text-align: right; padding-right:35px;">1-
+            <div style="float: right;  text-align: right; margin-right:1px;">1-
                 MR. {{ $research->teacher->name }}
             </div>
             <div style="clear: both;"></div> <!-- Clear the floats -->

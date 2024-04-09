@@ -61,23 +61,29 @@ class AuthenticatedSessionController extends Controller
     public function handleGoogleCallback()
     {
         $googleUser = Socialite::driver('google')->user();
-        $user = User::where('email', $googleUser->getEmail())->first();
+        $email = $googleUser->getEmail();
+        $allowedPattern = '/@.*\.soran\.edu\.iq$/';
         try {
-            if (!$user) {
-                // User doesn't exist, create a new user
-                $newUser =User::create([
-                    'name' => $googleUser->name,
-                    'email' => $googleUser->email,
-                ])->assignRole('student');
-                Auth::login($newUser);
-                return view('requiredAdditionalInfo', [
-                    'departments' => Department::pluck('department', 'id'),
-                    'faculties' => faculties::pluck('faculty', 'id'),
-                ]);
-            } else {
-                Auth::login($user);
-                return redirect()->intended(RouteServiceProvider::HOME); // Redirect to a dashboard or home page
+            if (preg_match($allowedPattern, $email)) {
+                $user = User::where('email', $email)->first();
+                if (!$user) {
+                    // User doesn't exist, create a new user
+                    $newUser = User::create([
+                        'name' => $googleUser->name,
+                        'email' => $googleUser->email,
+                    ])->assignRole('student');
+                    Auth::login($newUser);
+                    return view('requiredAdditionalInfo', [
+                        'departments' => Department::pluck('department', 'id'),
+                        'faculties' => faculties::pluck('faculty', 'id'),
+                    ]);
+                } else {
+                    Auth::login($user);
+                    return redirect()->intended(RouteServiceProvider::HOME); // Redirect to a dashboard or home page
 
+                }
+            }else {
+                return redirect('login')->with('error', 'Invalid email domain. just this type email @**.soran.edu.iq');
             }
         } catch (\Throwable $th) {
             dd('Something went wrong ' . $th->getMessage());
