@@ -24,7 +24,7 @@ $students = explode(",", $research->student_name);
         }
 
         h2 {
-            text-align: left;
+            text-align: center;
         }
 
         h4 {
@@ -129,7 +129,7 @@ body {
     if (isset($pdf)) {
         $pdf->AddPage(); // Add a new page
         $font = $fontMetrics->get_font('Arial, sans-serif', 'normal');
-        $size =2;
+        $size =1;
         $pdf->page_text(270, 770, 'Page: {PAGE_NUM}', $font, $size);
     }
     ?>

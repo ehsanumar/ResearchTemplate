@@ -151,10 +151,31 @@ class SortAndSearchController extends Controller
     }
     public function filter(Request $request)
     {
-        $researchFilter = Researchs::CheckDepartment()
-            ->Where('status', $request['statusfilter'])
-            ->orWhere('teacher_id', $request['teacherfilter'])
-            ->paginate(5);
+        // Start with the base query
+        $query = Researchs::with('teacher')->CheckDepartment();
+
+        // Clone the query before adding filters
+        $filteredQuery = clone $query;
+
+        // Apply Filter 1: Filter by teacher_id
+        if ($request->filled('teacherfilter')) {
+            $teacherName = $request->input('teacherfilter');
+            $filteredQuery->whereHas('teacher', function ($query) use ($teacherName) {
+                $query->where('name', $teacherName);
+            });
+        }
+
+        // Apply Filter 2: Filter by status
+        if ($request->filled('statusfilter')) {
+            $filteredQuery->where('status', $request->statusfilter);
+        }
+
+        // Paginate the final filtered query
+        $researchFilter = $filteredQuery->paginate(5);
+
         return view('research-page-for-supatadmin', ['sort' => $researchFilter]);
     }
+
+
+
 }

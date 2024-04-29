@@ -22,8 +22,9 @@ class ResearchsController extends Controller
 
     public function edit($research)
     {
+
         //in user model i creat a fn to get user if teacher and if user in this department
-        $teachersInSameDepartment = User::teachersInSameDepartment()->pluck('name', 'id');
+        $teachersInSameDepartment = User::RoleUserTarget('teacher')->CheckDepartment()->pluck('name', 'id');
         $research = Researchs::with('teacher')->where('id', $research)
             ->where('user_id', auth()->id())
             ->first();
@@ -62,7 +63,7 @@ class ResearchsController extends Controller
             ]);
         }
 
-        return back();
+        return redirect()->route('dashboard');
     }
 
 

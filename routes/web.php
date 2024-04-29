@@ -41,6 +41,7 @@ Route::middleware('auth')
 });
 
 Route::get('/download-pdf/{id}', [TeacherController::class, 'DownloadPDF'])->name('downloadPdf')->middleware('auth');
+Route::get('/download-pdf-all', [TeacherController::class, 'downloadAllResearchs'])->name('downloadAllResearchs')->middleware('auth');
 Route::view('/download', 'PDF.sss');
 
 //student Route
@@ -64,3 +65,4 @@ Route::middleware(['guest'])->group(function () {
     Route::get('auth/google/redirect', [AuthenticatedSessionController::class,'redirectToGoogle'])->name('google.login');
     Route::get('auth/google/callback', [AuthenticatedSessionController::class, 'handleGoogleCallback'])->name('google.login.callback');
 });
+

@@ -14,19 +14,16 @@
 
                 </div>
                 <div class=" space-x-4 flex">
-                    <form action="{{ route('filterResearch') }}" method="post" class="flex space-x-3 items-center ">
-                        @csrf
-                        <select name="teacherfilter" onchange="this.form.submit()"
+                    <form action="{{ route('filterResearch') }}" method="get" class="flex space-x-3 items-center ">
+                        <select name="teacherfilter"
                             class="py-3 px-4 pr-9 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500">
                             <option value="">Filter By Teacher</option>
                             @foreach ($teachers as $teacher)
-                                <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
+                                <option value="{{ $teacher->name}}">{{ $teacher->name }}</option>
                             @endforeach
                         </select>
-                    </form>
-                    <form action="{{ route('filterResearch') }}" method="post" class="flex space-x-3 items-center ">
-                        @csrf
-                        <select name="statusfilter" onchange="this.form.submit()"
+
+                        <select name="statusfilter"
                             class="py-3 px-4 pr-9 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500">
                             <option value="">Filter By Status</option>
                             <option value="in_progress">in_progress</option>
@@ -34,6 +31,9 @@
                             <option value="Reject">Reject</option>
                         </select>
 
+                        <div class="">
+                           <button type="submit" class="py-3 px-4 pr-9 block w-full  text-sm"><i class="fa-solid fa-filter text-2xl"></i></button>
+                        </div>
                     </form>
                     <form id="sortingForm" action="{{ route('sortResearch') }}" method="post"
                         class="flex space-x-3 items-center ">
@@ -139,8 +139,9 @@
                 <div class="flex flex-col overflow-x-auto">
                     <div class="sm:-mx-6 lg:-mx-8">
                         <div class="inline-block min-w-full  py-2 sm:px-6 lg:px-8">
-                            <div class="overflow-hidden">
-                                <table class="w-auto ml-2 text-left text-sm font-light">
+                            <a href= "{{ route('downloadAllResearchs') }}" class="bg-red-500 hover:bg-gray-700 text-white ml-2   font-bold py-2 px-4 rounded">Download all Researchs</a>
+                            <div class="overflow-hidden ">
+                                <table class="w-auto ml-2 mt-3 text-left text-sm font-light">
                                     <thead class="border-b border-gray-900 font-medium bg-gray-900 text-white ">
                                         <tr>
                                             <th scope="col" class="px-6 py-4">Title</th>
